@@ -169,7 +169,7 @@ static NSString *const PLAlternatePlistNameKey = @"pl_alt_plist_name";
 %hook NSBundle
 
 %new + (NSBundle *)frameworkWithName:(NSString *)fwName {
-    NSArray *paths = @[@"/System/Library/Frameworks", @"/System/Library/PrivateFrameworks", @"/Library/Frameworks"];
+    NSArray *paths = @[@"/System/Library/Frameworks", @"/System/Library/PrivateFrameworks", @"/Library/Frameworks", @"/Library/Frameworks"];
     __block NSBundle *_bundle = nil;
     [paths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -185,7 +185,7 @@ static NSString *const PLAlternatePlistNameKey = @"pl_alt_plist_name";
 }
 
 %new + (NSBundle *)bundleWithName:(NSString *)bundleName {
-    NSArray *paths = @[@"/System/Library/PreferenceBundles", @"/Library/PreferenceBundles"];
+    NSArray *paths = @[@"/System/Library/PreferenceBundles", @"/Library/PreferenceBundles", @"/Library/PreferenceBundles"];
     __block NSBundle *_bundle = nil;
     [paths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -241,11 +241,16 @@ static NSString *const PLAlternatePlistNameKey = @"pl_alt_plist_name";
     NSString *bundlePath = entry[@"bundlePath"];
     
     if(isBundle) {
-        // Second Try (bundlePath key failed)
+
+        // Second Try (bundlePath key failed - trying  prefix first)
         if(![[NSFileManager defaultManager] fileExistsAtPath:bundlePath])
             bundlePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/%@.bundle", bundleName];
         
-        // Third Try (/Library failed)
+        // Third Try (bundlePath key failed)
+        if(![[NSFileManager defaultManager] fileExistsAtPath:bundlePath])
+            bundlePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/%@.bundle", bundleName];
+        
+        // Fourth Try (/Library failed)
         if(![[NSFileManager defaultManager] fileExistsAtPath:bundlePath])
             bundlePath = [NSString stringWithFormat:@"/System/Library/PreferenceBundles/%@.bundle", bundleName];
         

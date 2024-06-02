@@ -1,19 +1,21 @@
 --- !tapi-tbd
 tbd-version:           4
-targets:               [ arm64-tvos ]
+targets:               [ arm64-tvos, arm64-ios ]
 uuids:
   - target: arm64-tvos
     value: '0FF38802-6DCC-3132-A24F-0D487E290C6C'
+  - target: arm64-ios
+    value: '0FF38802-6DCC-3132-A24F-0D487E290C6D'
 flags:                 [ flat_namespace, not_app_extension_safe ]
 install-name:          /usr/lib/libprefs.dylib
 current-version:       0
 compatibility-version: 0
 exports:
-  - targets:              [ arm64-tvos ]
+  - targets:              [ arm64-tvos, arm64-ios ]
     objc-classes:         [ PLCustomListViewController,
                             TVSettingsTweakViewController ]
 undefineds:
-  - targets:              [ arm64-tvos ]
+  - targets:              [ arm64-tvos, arm64-ios ]
     symbols:              [ _NSClassFromString, _NSLog, _NSSelectorFromString,
                             __Block_object_assign, __Block_object_dispose,
                             __NSConcreteStackBlock, __Unwind_Resume,

@@ -2,7 +2,7 @@
 #ifdef DEBUG
 #import "Log.h"
 #include <os/log.h>
-@implementation Log
+__BEGIN_DECLS
 
 #define LOG_ERROR(format, ...) do { \
     os_log_error(OS_LOG_DEFAULT, "[tvOSPreferenceLoader] " format "\n", ##__VA_ARGS__); \
@@ -36,5 +36,5 @@ void _Log(NSString *prefix, const char *file, int lineNumber, const char *funcNa
     LOG_ERROR("%s%50s:%3d - %s",[prefix UTF8String], funcName, lineNumber, [msg UTF8String]);
     append(msg);
 }
-@end
+__END_DECLS
 #endif
